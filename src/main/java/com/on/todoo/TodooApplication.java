@@ -2,6 +2,7 @@ package com.on.todoo;
 
 import com.on.todoo.db.ManagedMongo;
 import com.on.todoo.db.MongoDao;
+import com.on.todoo.health.MongoHealthCheck;
 import com.on.todoo.resources.TodoResource;
 import com.on.todoo.services.TodoService;
 
@@ -33,6 +34,8 @@ public class TodooApplication extends Application<TodooConfiguration> {
     	MongoDao dao = new MongoDao();
     	ManagedMongo mongo = new ManagedMongo(configuration, dao);
     	environment.lifecycle().manage(mongo);
+    	
+    	environment.healthChecks().register("mongo", new MongoHealthCheck(configuration));
     	
     	// manual DI: :(    	
     	TodoService todoService = new TodoService(dao);

@@ -33,7 +33,7 @@ public class ManagedMongo implements Managed {
         CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
         		CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
         // create new database if not exists:
-        MongoDatabase mongoDb = mongoClient.getDatabase(config.getMongoDbName()).withCodecRegistry(pojoCodecRegistry);;
+        MongoDatabase mongoDb = mongoClient.getDatabase(config.getMongoDbName()).withCodecRegistry(pojoCodecRegistry);
 		
 		mongoDao.initialize(mongoDb);
 	}
