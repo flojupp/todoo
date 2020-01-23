@@ -9,7 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReturnDocument;
-import com.on.todoo.core.Entity;
+import com.on.todoo.entities.Entity;
 
 @Service
 public class MongoDao {

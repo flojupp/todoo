@@ -1,20 +1,16 @@
-package com.on.todoo.core;
-
-import java.util.List;
+package com.on.todoo.entities;
 
 import javax.validation.constraints.NotEmpty;
 
 
-public class Todo extends Entity {	
-	
+public class Task extends Entity {
+
 	@NotEmpty
 	String name;
 	
 	String description;
-	
-	List<Task> tasks;
 
-	
+
 	public String getName() {
 		return name;
 	}
@@ -30,13 +26,5 @@ public class Todo extends Entity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public List<Task> getTasks() {
-		return tasks;
-	}
-
-	public void setTasks(List<Task> tasks) {
-		this.tasks = tasks;
-	}
-	    
+	
 }

@@ -12,7 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.on.todoo.core.Todo;
+import com.on.todoo.entities.Todo;
 import com.on.todoo.services.TodoService;
 
 /**

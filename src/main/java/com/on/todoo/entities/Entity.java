@@ -1,4 +1,4 @@
-package com.on.todoo.core;
+package com.on.todoo.entities;
 
 import org.bson.codecs.pojo.annotations.BsonId;
 

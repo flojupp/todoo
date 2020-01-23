@@ -7,9 +7,9 @@ import javax.inject.Inject;
 import org.bson.types.ObjectId;
 import org.jvnet.hk2.annotations.Service;
 
-import com.on.todoo.core.Task;
-import com.on.todoo.core.Todo;
 import com.on.todoo.db.MongoDao;
+import com.on.todoo.entities.Task;
+import com.on.todoo.entities.Todo;
 
 @Service
 public class TodoService {
