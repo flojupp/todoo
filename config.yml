@@ -1,0 +1,8 @@
+logging:
+  level: INFO
+  loggers:
+    com.on: DEBUG
+    
+mongoHost : localhost
+mongoPort : 27017
+mongoDbName : todoo
