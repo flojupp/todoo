@@ -3,7 +3,9 @@ package com.on.todoo.resources;
 import java.util.List;
 
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
 
+import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -45,7 +47,8 @@ public class TodoResourceTests {
 		dao.initialize(mongoDb);
 		TodoService service = new TodoService(dao);
 
-		resource = ResourceExtension.builder().addResource(new TodoResource(service)).build();
+		resource = ResourceExtension.builder().addResource(new TodoResource(service))
+				.addProvider(IllegalArgumentExceptionMapper.class).build();
 	}
 
 
@@ -133,5 +136,46 @@ public class TodoResourceTests {
 
 		// THEN:
 		Assertions.assertNull(notFound);
+	}
+
+
+	@Test
+	public void failCreate() {
+		// GIVEN:
+		Todo todo = testEntityBuilder.buildUnsavedTodo(numOfTasks);
+		todo.setId("123");
+
+		// WHEN:
+		Response response = resource.target("/todos").request().post(Entity.json(todo));
+
+		// THEN:
+		Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, response.getStatus());
+	}
+
+
+	@Test
+	public void failUpdate() {
+		// GIVEN:
+		Todo todo = testEntityBuilder.buildUnsavedTodo(numOfTasks);
+
+		// WHEN:
+		Response response = resource.target("/todos").request().put(Entity.json(todo));
+
+		// THEN:
+		Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, response.getStatus());
+	}
+
+
+	@Test
+	public void failValidate() {
+		// GIVEN:
+		Todo todo = testEntityBuilder.buildUnsavedTodo(numOfTasks);
+		todo.setName(null);
+
+		// WHEN:
+		Response response = resource.target("/todos").request().post(Entity.json(todo));
+
+		// THEN:
+		Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, response.getStatus());
 	}
 }

@@ -17,14 +17,16 @@ public class TodoService {
 	MongoDao dao;
 	final String collectionName = "todos";
 
+
 	@Inject
 	public TodoService(MongoDao dao) {
 		this.dao = dao;
 	}
 
+
 	public Todo create(Todo todo) {
 		if (todo.getId() != null) {
-			throw new IllegalArgumentException(String.format("Todo %s already exists!", todo.getId()));
+			throw new IllegalArgumentException(String.format("id %s should be 'null'.", todo.getId()));
 		}
 
 		populateIds(todo);
@@ -33,17 +35,20 @@ public class TodoService {
 		return todo;
 	}
 
+
 	public Todo getById(String id) {
 		return dao.getById(collectionName, id, Todo.class);
 	}
+
 
 	public List<Todo> getAll() {
 		return dao.getAll(collectionName, Todo.class);
 	}
 
+
 	public Todo update(Todo todo) {
 		if (todo.getId() == null) {
-			throw new IllegalArgumentException(String.format("Todo %s does not exists!", todo.getId()));
+			throw new IllegalArgumentException(String.format("id %s should be valid.", todo.getId()));
 		}
 
 		populateIds(todo);
@@ -51,9 +56,11 @@ public class TodoService {
 		return dao.update(collectionName, todo, Todo.class);
 	}
 
+
 	public void delete(String id) {
 		dao.delete(collectionName, id);
 	}
+
 
 	private void populateIds(Todo todo) {
 		if (todo.getId() == null) {
