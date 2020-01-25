@@ -9,8 +9,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.mongodb.client.MongoDatabase;
-import com.on.todoo.core.EmbeddedMongo;
 import com.on.todoo.core.TestEntityBuilder;
+import com.on.todoo.db.EmbeddedMongo;
 import com.on.todoo.db.MongoDao;
 import com.on.todoo.entities.Todo;
 import com.on.todoo.services.TodoService;
@@ -23,10 +23,10 @@ public class TodoServiceTests {
 	MongoDao dao;
 
 	TestEntityBuilder testEntityBuilder;
+	Integer numOfTasks = 2;
 
 	TodoService service;
 
-	final Integer numOfTasks = 2;
 
 	@BeforeAll
 	public void setUp() {
@@ -43,15 +43,18 @@ public class TodoServiceTests {
 		}
 	}
 
+
 	@AfterAll
 	public void tearDown() {
 		mongo.shutDown();
 	}
 
+
 	@AfterEach
 	public void cleanUp() {
 		mongoDb.getCollection("todos").drop();
 	}
+
 
 	@Test
 	public void testCreate() {
@@ -65,6 +68,7 @@ public class TodoServiceTests {
 		Assertions.assertEquals(1, service.getAll().size());
 	}
 
+
 	@Test
 	public void testRead() {
 		// GIVEN:
@@ -77,6 +81,7 @@ public class TodoServiceTests {
 		// THEN:
 		Assertions.assertNotNull(read);
 	}
+
 
 	@Test
 	public void testUpdate() {
@@ -94,6 +99,7 @@ public class TodoServiceTests {
 		Assertions.assertEquals(name, updated.getName());
 	}
 
+
 	@Test
 	public void testDelete() {
 		// GIVEN:
@@ -106,6 +112,36 @@ public class TodoServiceTests {
 
 		// THEN:
 		Assertions.assertNull(notFound);
+	}
+
+
+	@Test
+	public void failCreate() {
+		// GIVEN:
+		Todo todo = testEntityBuilder.buildUnsavedTodo(numOfTasks);
+
+		// WHEN:
+		todo.setId("123");
+
+		// THEN:
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			service.create(todo);
+		});
+	}
+
+
+	@Test
+	public void failUpdate() {
+		// GIVEN:
+		Todo todo = testEntityBuilder.buildUnsavedTodo(numOfTasks);
+
+		// WHEN:
+		todo.setId(null);
+
+		// THEN:
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			service.update(todo);
+		});
 	}
 
 }

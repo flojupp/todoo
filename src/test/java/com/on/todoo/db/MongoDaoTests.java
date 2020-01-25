@@ -10,7 +10,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.mongodb.client.MongoDatabase;
-import com.on.todoo.core.EmbeddedMongo;
 import com.on.todoo.core.TestEntityBuilder;
 import com.on.todoo.entities.Todo;
 
@@ -18,12 +17,14 @@ import com.on.todoo.entities.Todo;
 class MongoDaoTests {
 
 	EmbeddedMongo mongo;
-	MongoDao dao;
 	MongoDatabase mongoDb;
 	TestEntityBuilder testEntityBuilder;
 
 	final String collectionName = "testCollection";
 	final Integer numOfTasks = 2;
+
+	MongoDao dao;
+
 
 	@BeforeAll
 	public void setUp() {
@@ -39,15 +40,18 @@ class MongoDaoTests {
 		}
 	}
 
+
 	@AfterAll
 	public void tearDown() {
 		mongo.shutDown();
 	}
 
+
 	@AfterEach
 	public void cleanUp() {
 		mongoDb.getCollection(collectionName).drop();
 	}
+
 
 	@Test
 	public void testCreate() {
@@ -62,6 +66,7 @@ class MongoDaoTests {
 		Assertions.assertEquals(1, dao.getAll(collectionName, Todo.class).size());
 	}
 
+
 	@Test
 	public void testRead() {
 		// GIVEN:
@@ -75,6 +80,7 @@ class MongoDaoTests {
 		// THEN:
 		Assertions.assertNotNull(read);
 	}
+
 
 	@Test
 	public void testUpdate() {
@@ -92,6 +98,7 @@ class MongoDaoTests {
 		Assertions.assertNotNull(updated);
 		Assertions.assertEquals(name, updated.getName());
 	}
+
 
 	@Test
 	public void testDelete() {

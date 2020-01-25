@@ -1,4 +1,4 @@
-package com.on.todoo.core;
+package com.on.todoo.db;
 
 import java.util.Arrays;
 

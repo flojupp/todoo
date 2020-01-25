@@ -6,3 +6,4 @@ logging:
 mongoHost : localhost
 mongoPort : 27017
 mongoDbName : todoo
+embeddedMongo: false
